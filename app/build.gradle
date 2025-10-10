@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.example.kotlinapidemo'
-    compileSdk 33
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.example.kotlinapidemo"
-        minSdk 26
-        targetSdk 33
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 

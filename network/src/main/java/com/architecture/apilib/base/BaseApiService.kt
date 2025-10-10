@@ -65,9 +65,9 @@ abstract class BaseApiService(private val baseUrl: String) {
         //默认值设置低一点，以便暴露出整个系统的问题所在。
         okHttpClientBuilder
             .retryOnConnectionFailure(true)//默认重试一次，若需要重试N次，则要实现拦截器。
-            .connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(15, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(getConnectTimeout(), TimeUnit.SECONDS)
+            .readTimeout(getReadTimeout(), TimeUnit.SECONDS)
+            .writeTimeout(getWriteTimeout(), TimeUnit.SECONDS)
             .callTimeout(2, TimeUnit.MINUTES)
         return okHttpClientBuilder.build()
     }
@@ -76,6 +76,12 @@ abstract class BaseApiService(private val baseUrl: String) {
         add(CommonRequestInterceptor())
         add(CommonResponseInterceptor())
     }
+
+    open fun getConnectTimeout(): Long = 15
+
+    open fun getReadTimeout(): Long = 15
+
+    open fun getWriteTimeout(): Long = 15
 
     open fun getHttpWrapperHandler(): MoshiResultTypeAdapterFactory.HttpWrapper {
 
