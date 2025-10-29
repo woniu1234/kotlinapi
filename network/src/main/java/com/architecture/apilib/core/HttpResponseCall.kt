@@ -34,17 +34,10 @@ internal class HttpResponseCall<S : Any>(
 
                 //Http 返回[200..300).
                 if (response.isSuccessful) {
-                    if (data != null) {
-                        callback.onResponse(
-                            this@HttpResponseCall,
-                            Response.success(HttpResult.Success(data))
-                        )
-                    } else {
-                        callback.onResponse(
-                            this@HttpResponseCall,
-                            Response.success(HttpResult.Failure("response body is null"))
-                        )
-                    }
+                    callback.onResponse(
+                        this@HttpResponseCall,
+                        Response.success(HttpResult.Success(data))
+                    )
                 } else {
                     //http 异常
                     if (error != null && error.contentLength() > 0) {
