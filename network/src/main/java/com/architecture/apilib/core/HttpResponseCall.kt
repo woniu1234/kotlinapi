@@ -1,6 +1,5 @@
 package com.architecture.apilib.core
 
-import com.architecture.apilib.beans.BusinessBaseResponse
 import com.architecture.apilib.error.BusinessException
 import okhttp3.Request
 import okio.Timeout
@@ -43,33 +42,22 @@ internal class HttpResponseCall<S : Any>(
                     } else {
                         callback.onResponse(
                             this@HttpResponseCall,
-                            Response.success(HttpResult.Failure("response body is null", -1))
+                            Response.success(HttpResult.Failure("response body is null"))
                         )
                     }
                 } else {
                     //http 异常
                     if (error != null && error.contentLength() > 0) {
-                        //500
-                        val errorResponse =
-                            MoshiUtils.fromJson<BusinessBaseResponse>(
-                                error.string(),
-                                BusinessBaseResponse::class.java
-                            )
+                        val errorText = error.source().peek().readUtf8()
 
                         errorConverter.onFailure(
-                            BusinessException(
-                                errorResponse?.code ?: -1,
-                                errorResponse?.message ?: "网络请求错误，稍后再试～"
-                            )
+                            BusinessException(errorText)
                         )
 
                         callback.onResponse(
                             this@HttpResponseCall,
                             Response.success(
-                                HttpResult.Failure(
-                                    errorResponse?.message ?: "网络请求错误，稍后再试～",
-                                    errorResponse?.code ?: -1
-                                )
+                                HttpResult.Failure(errorText)
                             )
                         )
                     } else {
@@ -77,9 +65,7 @@ internal class HttpResponseCall<S : Any>(
                         callback.onResponse(
                             this@HttpResponseCall,
                             Response.success(
-                                HttpResult.Failure(
-                                    error?.string() ?: "Message is empty.", code
-                                )
+                                HttpResult.Failure("Message is empty")
                             )
                         )
 
@@ -93,23 +79,17 @@ internal class HttpResponseCall<S : Any>(
             override fun onFailure(call: Call<S>, throwable: Throwable) {
                 val networkResponse = when (throwable) {
                     //IO Exception
-                    is IOException -> HttpResult.Failure(
-                        throwable.message.toString(),
-                        -1
-                    )
+                    is IOException -> HttpResult.Failure(throwable.message.toString())
 
                     //业务code
                     is BusinessException -> {
                         errorConverter.onFailure(throwable)
-                        HttpResult.Failure(
-                            throwable.message ?: "网络请求错误，稍后再试～",
-                            throwable.code ?: -1
-                        )
+                        HttpResult.Failure(throwable.message ?: "网络请求错误，稍后再试～")
                     }
 
                     //拓展
                     else -> {
-                        HttpResult.Failure(throwable.message ?: "未知错误", -2)
+                        HttpResult.Failure(throwable.message ?: "未知错误")
                     }
 
                 }

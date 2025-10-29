@@ -44,7 +44,7 @@ abstract class BaseApiService(private val baseUrl: String) {
 
     open fun getGlobalErrorHandler(): HttpResponseCallAdapterFactory.ErrorHandler {
         return HttpResponseCallAdapterFactory.ErrorHandler { throwable ->
-            Log.e(throwable.message, throwable.code.toString())
+
         }
     }
 

@@ -83,7 +83,7 @@ class MoshiResultTypeAdapterFactory(private val httpWrapper: HttpWrapper?) : Jso
                 if (httpWrapper.isRequestSuccess(code)) {
                     return data as T
                 } else {
-                    throw BusinessException(code, msg)
+                    throw BusinessException(msg)
                 }
 
             } else {

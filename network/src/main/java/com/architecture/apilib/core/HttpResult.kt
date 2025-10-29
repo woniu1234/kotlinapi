@@ -19,6 +19,6 @@ sealed class HttpResult<out T : Any> {
     data class Success<T : Any>(val data: T) : HttpResult<T>()
 
     //各种失败，异常全部到这里来吧
-    data class Failure(val message: String, val code: Int) : HttpResult<Nothing>()
+    data class Failure(val message: String) : HttpResult<Nothing>()
 
 }

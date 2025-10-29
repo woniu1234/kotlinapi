@@ -21,7 +21,7 @@ class MainModel {
             is HttpResult.Failure -> {
                 Log.e(
                     "HttpResult.Failure",
-                    "错误编码：" + result.code + "  错误信息：" + result.message
+                    result.message
                 )
             }
 
