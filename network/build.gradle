@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id("com.google.devtools.ksp")
     id 'maven-publish'
 }
@@ -61,7 +60,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.woniu1234'
                 artifactId = 'base-api'
-                version = '1.0.2'
+                version = '1.0.3'
             }
         }
     }

@@ -37,7 +37,7 @@ data class TestDataBean(
         @Json(name = "country")
         val country: String,
         @Json(name = "county_code")
-        val countyCode: String,
+        val countyCode: String?,
         @Json(name = "id")
         val id: Int,
         @Json(name = "latitude")
@@ -84,7 +84,7 @@ data class TestDataBean(
             @Json(name = "country")
             val country: String,
             @Json(name = "county_code")
-            val countyCode: String,
+            val countyCode: String?,
             @Json(name = "id")
             val id: Int,
             @Json(name = "latitude")
